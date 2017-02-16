@@ -3,7 +3,7 @@
 import inspect
 import pprint
 
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 
 def p(*args, **kwargs):
     _print(1, *args, **kwargs)
