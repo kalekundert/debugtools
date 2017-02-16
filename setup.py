@@ -17,7 +17,7 @@ setup(
     description='',
     long_description=readme,
     url='https://github.com/kalekundert/debugtools',
-    pymodules=[
+    py_modules=[
         'debugtools',
     ],
     include_package_data=True,

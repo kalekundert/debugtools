@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
 
+import inspect
+import pprint
+
 __version__ = '0.1.0'
 
-from pprint import pprint
-pp = pprint
+def p(*args, **kwargs):
+    _print(1, *args, **kwargs)
 
-def p(message=None):
-    import inspect
-    frame = inspect.stack()[1][0]
+def pp(*args, **kwargs):
+    _pprint(1, *args, **kwargs)
+
+def pv():
+    _pprint_vars(1)
+
+
+def _print(frame_depth, *args, **kwargs):
+    frame = inspect.stack()[frame_depth + 1][0]
         
     try:
-        # Collect all the variables in the scope of the calling code, so they 
-        # can be substituted into the message.
-
-        scope = {}
-        scope.update(frame.f_globals)
-        scope.update(frame.f_locals)
-
         # If the calling frame is inside a class (deduced based on the presence 
         # of a 'self' variable), name the logger after that class.  Otherwise 
         # if the calling frame is inside a function, name the logger after that 
@@ -39,19 +41,20 @@ def p(message=None):
         else:
             name = module
 
-        if message is not None:
-            print(name + ': ' + str(message).format(**scope))
+        if args or kwargs:
+            print(name + '\n', *args, **kwargs)
         else:
             print(name)
 
     finally:
+        # Failing to explicitly delete the frame can lead to long-lived 
+        # reference cycles.
         del frame
 
+def _pprint(frame_depth, *args, **kwargs):
+    _print(frame_depth + 1, pprint.pformat(*args, **kwargs))
 
-def v():
-    """
-    pprint all variables in calling scope
-    """
-    import builtins
-    pprint(builtins.vars())
+def _pprint_vars(frame_depth):
+    frame = inspect.stack()[frame_depth + 1][0]
+    _pprint(frame_depth + 1, frame.f_locals)
 
