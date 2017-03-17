@@ -5,7 +5,7 @@ from inform import indent, output, Color, render
 from pathlib import Path
 from types import ModuleType, FunctionType
 
-__version__ = '0.3.3'
+__version__ = '0.3.4'
 
 def p(*args, **kwargs):
     frame_depth = 1

@@ -17,7 +17,7 @@ else:
 
 setup(
     name='debugtools',
-    version='0.3.3',
+    version='0.3.4',
     author='Kale Kundert & Ken Kundert',
     author_email='debugtools@shalmirane.com',
     description='',
