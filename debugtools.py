@@ -4,6 +4,7 @@ import inspect
 from inform import indent, output, Color, render
 from pathlib import Path
 from types import ModuleType, FunctionType
+import sys
 
 __version__ = '0.3.4'
 
@@ -12,14 +13,16 @@ def p(*args, **kwargs):
     _print(frame_depth, args, kwargs)
 
 def pp(*args, **kwargs):
-    args = list(args) + [
+    args = [
+        render(arg) for arg in args
+    ] + [
         '{k} = {v}'.format(k=k, v=render(v))
         for k, v in kwargs.items()
     ]
     frame_depth = 1
     _print(frame_depth, args, kwargs={'sep':'\n'})
 
-def pv(**kwargs):
+def pv(*args):
     frame_depth = 1
     frame = inspect.stack()[frame_depth][0]
     args = [
@@ -27,8 +30,9 @@ def pv(**kwargs):
         for k, v in frame.f_locals.items()
         if not k.startswith('_')
         if not isinstance(v, (FunctionType, type, ModuleType))
+        if not args or v in args
     ]
-    _print(frame_depth, args, kwargs)
+    _print(frame_depth, args, kwargs={'sep':'\n'})
 
 
 def _print(frame_depth, args, kwargs):
@@ -62,8 +66,8 @@ def _print(frame_depth, args, kwargs):
         else:
             name = module
 
-        highlight_header = Color('magenta')
-        highlight_body = Color('blue')
+        highlight_header = Color('magenta', enable=Color.isTTY(sys.stdout))
+        highlight_body = Color('blue', enable=Color.isTTY(sys.stdout))
 
         header = 'DEBUG: {fname}:{lineno}, {name}:'.format(
             filename=filename, fname=fname, lineno=lineno, name=name

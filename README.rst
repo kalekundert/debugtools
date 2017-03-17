@@ -33,16 +33,92 @@ to debug:
 
 .. code:: python
 
-   from debugtools import p, pp, pv
+   >>> from debugtools import p, pp, pv
 
 The ``p()`` function behaves just like ``print()``, except it appends the name 
 and location of the calling function to whatever you're printing.  I often use 
 it with no arguments, just to see if a function is being called or not.
 
+.. code:: python
+
+    >>> a = 1
+    >>> b = 'this is a test'
+    >>> c = (2, 3)
+    >>> d = {'a': a, 'b': b, 'c': c}
+    >>> p(a, b, c, d)
+    DEBUG: <doctest README.rst[5]>:1, __main__:
+        1 this is a test (2, 3) {'a': 1, 'b': 'this is a test', 'c': (2, 3)}
+
 The ``pp()`` function pretty prints its arguments, one per line. If you pass in 
 keyword arguments, the name of the argument is prepended to its value.
+
+    >>> pp(a, b, c, d)
+    DEBUG: <doctest README.rst[6]>:1, __main__:
+        1
+        'this is a test'
+        (
+            2,
+            3,
+        )
+        {
+            'a': 1,
+            'b': 'this is a test',
+            'c': (
+                2,
+                3,
+            ),
+        }
+
+    >>> pp(a=a, b=b, c=c, d=d)
+    DEBUG: <doctest README.rst[7]>:1, __main__:
+        a = 1
+        b = 'this is a test'
+        c = (
+            2,
+            3,
+        )
+        d = {
+            'a': 1,
+            'b': 'this is a test',
+            'c': (
+                2,
+                3,
+            ),
+        }
 
 The ``pv()`` function calls ``pp()`` with the dictionary of variables in the 
 calling scope, so it's a good way to see what variables are defined in the 
 function you're debugging.
+
+    >>> pv()
+    DEBUG: <doctest README.rst[8]>:1, __main__:
+        a = 1
+        b = 'this is a test'
+        c = (
+            2,
+            3,
+        )
+        d = {
+            'a': 1,
+            'b': 'this is a test',
+            'c': (
+                2,
+                3,
+            ),
+        }
+
+You can optionally specify specific variables to ``pv()``, and only those 
+variables are printed.
+
+    >>> pv(b, d)
+    DEBUG: <doctest README.rst[9]>:1, __main__:
+        b = 'this is a test'
+        d = {
+            'a': 1,
+            'b': 'this is a test',
+            'c': (
+                2,
+                3,
+            ),
+        }
 
