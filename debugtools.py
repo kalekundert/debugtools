@@ -4,7 +4,7 @@ import inspect
 from inform import indent, output, Color, render
 from pathlib import Path
 
-__version__ = '0.3.0'
+__version__ = '0.3.1'
 
 def p(*args, **kwargs):
     frame_depth = 1
