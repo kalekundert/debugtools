@@ -49,41 +49,31 @@ it with no arguments, just to see if a function is being called or not.
     DEBUG: <doctest README.rst[5]>:1, __main__:
         1 this is a test (2, 3) {'a': 1, 'b': 'this is a test', 'c': (2, 3)}
 
-The ``pp()`` function pretty prints its arguments, one per line. If you pass in 
-keyword arguments, the name of the argument is prepended to its value.
+The ``pp()`` function pretty prints its arguments, one per line.
 
     >>> pp(a, b, c, d)
     DEBUG: <doctest README.rst[6]>:1, __main__:
         1
         'this is a test'
-        (
-            2,
-            3,
-        )
+        (2, 3)
         {
             'a': 1,
             'b': 'this is a test',
-            'c': (
-                2,
-                3,
-            ),
+            'c': (2, 3),
         }
+
+If you pass in keyword arguments, the name of the argument is prepended to its 
+value.
 
     >>> pp(a=a, b=b, c=c, d=d)
     DEBUG: <doctest README.rst[7]>:1, __main__:
         a = 1
         b = 'this is a test'
-        c = (
-            2,
-            3,
-        )
+        c = (2, 3)
         d = {
             'a': 1,
             'b': 'this is a test',
-            'c': (
-                2,
-                3,
-            ),
+            'c': (2, 3),
         }
 
 The ``pv()`` function calls ``pp()`` with the dictionary of variables in the 
@@ -94,17 +84,11 @@ function you're debugging.
     DEBUG: <doctest README.rst[8]>:1, __main__:
         a = 1
         b = 'this is a test'
-        c = (
-            2,
-            3,
-        )
+        c = (2, 3)
         d = {
             'a': 1,
             'b': 'this is a test',
-            'c': (
-                2,
-                3,
-            ),
+            'c': (2, 3),
         }
 
 You can optionally specify specific variables to ``pv()``, and only those 
@@ -116,9 +100,6 @@ variables are printed.
         d = {
             'a': 1,
             'b': 'this is a test',
-            'c': (
-                2,
-                3,
-            ),
+            'c': (2, 3),
         }
 
