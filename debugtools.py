@@ -11,19 +11,22 @@ def p(*args, **kwargs):
     _print(frame_depth, args, kwargs)
 
 def pp(*args, **kwargs):
-    args = list(args) + [f'{k} = {render(v)}' for k, v in kwargs.items()]
+    args = list(args) + [
+        '{k} = {v}'.format(k=k, v=render(v))
+        for k, v in kwargs.items()
+    ]
     frame_depth = 1
     _print(frame_depth, args, kwargs={'sep':'\n'})
 
 def pv(**kwargs):
-    frame_depth = 0
-    frame = inspect.stack()[frame_depth + 1][0]
+    frame_depth = 1
+    frame = inspect.stack()[frame_depth][0]
     args = [
-        f'{k} = {render(v)}'
+        '{k} = {v}'.format(k=k, v=render(v))
         for k, v in frame.f_locals.items()
         if not k.startswith('_')
     ]
-    _print(frame_depth + 1, args, kwargs)
+    _print(frame_depth, args, kwargs)
 
 
 def _print(frame_depth, args, kwargs):
@@ -60,7 +63,9 @@ def _print(frame_depth, args, kwargs):
         highlight_header = Color('magenta')
         highlight_body = Color('blue')
 
-        header = f'DEBUG: {fname}:{lineno}, {name}:'
+        header = 'DEBUG: {fname}:{lineno}, {name}:'.format(
+            filename=filename, fname=fname, lineno=lineno, name=name
+        )
         body = kwargs.get('sep', ' ').join(str(arg) for arg in args)
         message = highlight_header(header) + '\n' + highlight_body(indent(body))
         output(message, **kwargs)

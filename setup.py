@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 
+import sys
 try:
     from setuptools import setup
 except ImportError:
@@ -8,6 +9,11 @@ except ImportError:
 
 with open('README.rst') as file:
     readme = file.read()
+
+if sys.version_info < (3,):
+    dependencies='inform pathlib'
+else:
+    dependencies='inform'
 
 setup(
     name='debugtools',
@@ -17,17 +23,11 @@ setup(
     description='',
     long_description=readme,
     url='https://github.com/kenkundert/debugtools',
-    py_modules=[
-        'debugtools',
-    ],
+    py_modules='debugtools'.split(),
     include_package_data=True,
-    install_requires=[
-        'inform',
-    ],
+    install_requires=dependencies.split(),
     license='MIT',
-    keywords=[
-        'debugtools',
-    ],
+    keywords='debugtools'.split(),
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
