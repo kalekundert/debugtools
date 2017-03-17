@@ -3,6 +3,7 @@
 import inspect
 from inform import indent, output, Color, render
 from pathlib import Path
+from types import ModuleType, FunctionType
 
 __version__ = '0.3.3'
 
@@ -25,6 +26,7 @@ def pv(**kwargs):
         '{k} = {v}'.format(k=k, v=render(v))
         for k, v in frame.f_locals.items()
         if not k.startswith('_')
+        if not isinstance(v, (FunctionType, type, ModuleType))
     ]
     _print(frame_depth, args, kwargs)
 
