@@ -12,11 +12,11 @@ with open('README.rst') as file:
 setup(
     name='debugtools',
     version='0.3.0',
-    author='Kale Kundert',
-    author_email='kale@thekunderts.net',
+    author='Kale Kundert & Ken Kundert',
+    author_email='debugtools@shalmirane.com',
     description='',
     long_description=readme,
-    url='https://github.com/kalekundert/debugtools',
+    url='https://github.com/kenkundert/debugtools',
     py_modules=[
         'debugtools',
     ],

@@ -7,17 +7,23 @@ from pathlib import Path
 __version__ = '0.3.0'
 
 def p(*args, **kwargs):
-    _print(1, args, kwargs)
+    frame_depth = 1
+    _print(frame_depth, args, kwargs)
 
 def pp(*args, **kwargs):
-    _pprint(1, args, kwargs)
-
-def pi(*args, **kwargs):
     args = list(args) + [f'{k} = {render(v)}' for k, v in kwargs.items()]
-    _print(1, args, kwargs={'sep':'\n'})
+    frame_depth = 1
+    _print(frame_depth, args, kwargs={'sep':'\n'})
 
 def pv(**kwargs):
-    _pprint_vars(1, kwargs)
+    frame_depth = 0
+    frame = inspect.stack()[frame_depth + 1][0]
+    args = [
+        f'{k} = {render(v)}'
+        for k, v in frame.f_locals.items()
+        if not k.startswith('_')
+    ]
+    _print(frame_depth + 1, args, kwargs)
 
 
 def _print(frame_depth, args, kwargs):
@@ -61,17 +67,3 @@ def _print(frame_depth, args, kwargs):
         # Failing to explicitly delete the frame can lead to long-lived 
         # reference cycles.
         del frame
-
-def _pprint(frame_depth, args, kwargs):
-    args = [render(arg) for arg in args]
-    _print(frame_depth + 1, args, kwargs)
-
-def _pprint_vars(frame_depth, kwargs):
-    frame = inspect.stack()[frame_depth + 1][0]
-    args = [
-        f'{k} = {render(v)}'
-        for k, v in frame.f_locals.items()
-        if not k.startswith('_')
-    ]
-    _print(frame_depth + 1, args, kwargs)
-

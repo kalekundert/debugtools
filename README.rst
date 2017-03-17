@@ -36,10 +36,12 @@ to debug:
    from debugtools import p, pp, pv
 
 The ``p()`` function behaves just like ``print()``, except it appends the name 
-of the calling function to whatever you're printing.  I often use it with no 
-arguments, just to see if a function is being called or not.
+and location of the calling function to whatever you're printing.  I often use 
+it with no arguments, just to see if a function is being called or not.
 
-The ``pp()`` function is to ``pprint.pprint()`` as ``p()`` is to ``print()``.  
+The ``pp()`` function pretty prints its arguments, one per line. If you pass in 
+keyword arguments, the name of the argument is prepended to its value.
+
 The ``pv()`` function calls ``pp()`` with the dictionary of variables in the 
 calling scope, so it's a good way to see what variables are defined in the 
 function you're debugging.
