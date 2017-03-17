@@ -11,7 +11,7 @@ with open('README.rst') as file:
 
 setup(
     name='debugtools',
-    version='0.2.0',
+    version='0.3.0',
     author='Kale Kundert',
     author_email='kale@thekunderts.net',
     description='',
