@@ -57,10 +57,12 @@ def _print(frame_depth, args, kwargs):
         else:
             name = module
 
-        highlight = Color('magenta')
-        header = highlight(f'DEBUG: {fname}:{lineno}, {name}:')
+        highlight_header = Color('magenta')
+        highlight_body = Color('blue')
+
+        header = f'DEBUG: {fname}:{lineno}, {name}:'
         body = kwargs.get('sep', ' ').join(str(arg) for arg in args)
-        message = header + '\n' + indent(body)
+        message = highlight_header(header) + '\n' + highlight_body(indent(body))
         output(message, **kwargs)
 
     finally:
