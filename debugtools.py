@@ -1,23 +1,28 @@
 #!/usr/bin/env python3
 
 import inspect
-import pprint
+from inform import indent, output, Color, render
+from pathlib import Path
 
 __version__ = '0.2.0'
 
 def p(*args, **kwargs):
-    _print(1, *args, **kwargs)
+    _print(1, args, kwargs)
 
 def pp(*args, **kwargs):
-    _pprint(1, *args, **kwargs)
+    _pprint(1, args, kwargs)
 
-def pv():
-    _pprint_vars(1)
+def pi(*args, **kwargs):
+    args = list(args) + [f'{k} = {render(v)}' for k, v in kwargs.items()]
+    _print(1, args, kwargs={'sep':'\n'})
+
+def pv(**kwargs):
+    _pprint_vars(1, kwargs)
 
 
-def _print(frame_depth, *args, **kwargs):
+def _print(frame_depth, args, kwargs):
     frame = inspect.stack()[frame_depth + 1][0]
-        
+
     try:
         # If the calling frame is inside a class (deduced based on the presence 
         # of a 'self' variable), name the logger after that class.  Otherwise 
@@ -25,8 +30,13 @@ def _print(frame_depth, *args, **kwargs):
         # function.  Otherwise name it after the module of the calling scope.
 
         self = frame.f_locals.get('self')
-        function = inspect.getframeinfo(frame).function
+        frame_info = inspect.getframeinfo(frame)
+        function = frame_info.function
+        filename = frame_info.filename
+        lineno = frame_info.lineno
         module = frame.f_globals['__name__']
+
+        fname = Path(filename).name
 
         if self is not None:
             name = '.'.join([
@@ -41,20 +51,27 @@ def _print(frame_depth, *args, **kwargs):
         else:
             name = module
 
-        if args or kwargs:
-            print(name + '\n', *args, **kwargs)
-        else:
-            print(name)
+        highlight = Color('magenta')
+        header = highlight(f'DEBUG: {fname}:{lineno}, {name}:')
+        body = kwargs.get('sep', ' ').join(str(arg) for arg in args)
+        message = header + '\n' + indent(body)
+        output(message, **kwargs)
 
     finally:
         # Failing to explicitly delete the frame can lead to long-lived 
         # reference cycles.
         del frame
 
-def _pprint(frame_depth, *args, **kwargs):
-    _print(frame_depth + 1, pprint.pformat(*args, **kwargs))
+def _pprint(frame_depth, args, kwargs):
+    args = [render(arg) for arg in args]
+    _print(frame_depth + 1, args, kwargs)
 
-def _pprint_vars(frame_depth):
+def _pprint_vars(frame_depth, kwargs):
     frame = inspect.stack()[frame_depth + 1][0]
-    _pprint(frame_depth + 1, frame.f_locals)
+    args = [
+        f'{k} = {render(v)}'
+        for k, v in frame.f_locals.items()
+        if not k.startswith('_')
+    ]
+    _print(frame_depth + 1, args, kwargs)
 
