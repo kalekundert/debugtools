@@ -20,6 +20,8 @@ debugging).
 .. image:: https://img.shields.io/coveralls/kalekundert/debugtools.svg
    :target: https://coveralls.io/github/kalekundert/debugtools?branch=master
 
+version = 0.3.6
+
 Installation
 ============
 You can install ``debugtools`` using ``pip``::
@@ -103,3 +105,11 @@ variables are printed.
             'c': (2, 3),
         }
 
+This last feature is not completely robust. The checking is done by value, so if 
+several variables share the value of one requested, they all will be shown.
+
+    >>> aa = 1
+    >>> pv(a)
+    DEBUG: <doctest README.rst[11]>:1, __main__:
+        a = 1
+        aa = 1
