@@ -1,12 +1,7 @@
 ``debugtools`` --- Easily print useful debugging information
 ============================================================
-This package provides a handful of functions you can use to print debugging 
-information.  There are basically two things that are useful about these 
-functions.  First, they're only one or two letters each, so you can type them 
-really quickly while debugging.  Second, they append the name of the calling 
-function to whatever you're printing, so you can easily see where each message 
-came from (and you don't have to hunt down print statements once you finish 
-debugging).
+
+version = 0.3.7
 
 .. image:: https://img.shields.io/pypi/v/debugtools.svg
    :target: https://pypi.python.org/pypi/debugtools
@@ -20,7 +15,13 @@ debugging).
 .. image:: https://img.shields.io/coveralls/kalekundert/debugtools.svg
    :target: https://coveralls.io/github/kalekundert/debugtools?branch=master
 
-version = 0.3.7
+This package provides a handful of functions you can use to print debugging 
+information.  There are basically two things that are useful about these 
+functions.  First, they're only one or two letters each, so you can type them 
+really quickly while debugging.  Second, they append the name of the calling 
+function to whatever you're printing, so you can easily see where each message 
+came from (and you don't have to hunt down print statements once you finish 
+debugging).
 
 Installation
 ============
@@ -53,6 +54,8 @@ it with no arguments, just to see if a function is being called or not.
 
 The ``pp()`` function pretty prints its arguments, one per line.
 
+.. code:: python
+
     >>> pp(a, b, c, d)
     DEBUG: <doctest README.rst[6]>:1, __main__:
         1
@@ -66,6 +69,8 @@ The ``pp()`` function pretty prints its arguments, one per line.
 
 If you pass in keyword arguments, the name of the argument is prepended to its 
 value.
+
+.. code:: python
 
     >>> pp(a=a, b=b, c=c, d=d)
     DEBUG: <doctest README.rst[7]>:1, __main__:
@@ -82,6 +87,8 @@ The ``pv()`` function calls ``pp()`` with the dictionary of variables in the
 calling scope, so it's a good way to see what variables are defined in the 
 function you're debugging.
 
+.. code:: python
+
     >>> pv()
     DEBUG: <doctest README.rst[8]>:1, __main__:
         a = 1
@@ -96,6 +103,8 @@ function you're debugging.
 You can optionally specify specific variables to ``pv()``, and only those 
 variables are printed.
 
+.. code:: python
+
     >>> pv(b, d)
     DEBUG: <doctest README.rst[9]>:1, __main__:
         b = 'this is a test'
@@ -106,7 +115,9 @@ variables are printed.
         }
 
 This last feature is not completely robust. The checking is done by value, so if 
-several variables share the value of one requested, they all will be shown.
+several variables share the value of one requested, they are all shown.
+
+.. code:: python
 
     >>> aa = 1
     >>> pv(a)
