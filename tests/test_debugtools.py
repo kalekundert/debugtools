@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 from debugtools import p, pp, pv
 
@@ -22,5 +22,3 @@ def test_pprint_vars(capsys):
     b = 2
     pv()
     assert_phrases_in_stdout(capsys, "'a': 1", "'b': 2")
-
-

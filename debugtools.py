@@ -69,11 +69,12 @@ def _print(frame_depth, args, kwargs):
         highlight_header = Color('magenta', enable=Color.isTTY(sys.stdout))
         highlight_body = Color('blue', enable=Color.isTTY(sys.stdout))
 
-        header = 'DEBUG: {fname}:{lineno}, {name}:'.format(
+        header = 'DEBUG: {fname}:{lineno}, {name}'.format(
             filename=filename, fname=fname, lineno=lineno, name=name
         )
         body = kwargs.get('sep', ' ').join(str(arg) for arg in args)
-        message = highlight_header(header) + '\n' + highlight_body(indent(body))
+        header += ':\n' if body else '.'
+        message = highlight_header(header) + highlight_body(indent(body))
         output(message, **kwargs)
 
     finally:

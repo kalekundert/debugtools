@@ -39,8 +39,9 @@ to debug:
    >>> from debugtools import p, pp, pv
 
 The ``p()`` function behaves just like ``print()``, except it appends the name 
-and location of the calling function to whatever you're printing.  I often use 
-it with no arguments, just to see if a function is being called or not.
+and location of the calling context to whatever you're printing and indents and 
+colors the output.  I often use it with no arguments, just to see if a function 
+is being called or not.
 
 .. code:: python
 
@@ -83,7 +84,7 @@ value.
             'c': (2, 3),
         }
 
-The ``pv()`` function calls ``pp()`` with the dictionary of variables in the 
+The ``pv()`` function calls ``pp()`` with the dictionary of variables from the 
 calling scope, so it's a good way to see what variables are defined in the 
 function you're debugging.
 
