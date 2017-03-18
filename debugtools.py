@@ -6,7 +6,7 @@ from pathlib import Path
 from types import ModuleType, FunctionType
 import sys
 
-__version__ = '0.3.5'
+__version__ = '0.3.6'
 
 def p(*args, **kwargs):
     frame_depth = 1
