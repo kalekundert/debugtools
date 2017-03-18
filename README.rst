@@ -20,7 +20,7 @@ debugging).
 .. image:: https://img.shields.io/coveralls/kalekundert/debugtools.svg
    :target: https://coveralls.io/github/kalekundert/debugtools?branch=master
 
-version = 0.3.6
+version = 0.3.7
 
 Installation
 ============
