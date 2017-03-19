@@ -31,8 +31,8 @@ You can install ``debugtools`` using ``pip``::
 
 Usage
 =====
-I typically the following import at the beginning of any file that I'm likely 
-to debug:
+I typically add the following import to the beginning of any file that I'm 
+likely to debug:
 
 .. code:: python
 
