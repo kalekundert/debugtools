@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
+from __future__ import print_function
 import inspect
-from inform import indent, output, Color, render
+from inform import indent, Color, render
 from pathlib import Path
 from types import ModuleType, FunctionType
 import sys
@@ -17,7 +18,7 @@ def pp(*args, **kwargs):
         render(arg) for arg in args
     ] + [
         '{k} = {v}'.format(k=k, v=render(v))
-        for k, v in kwargs.items()
+        for k, v in sorted(kwargs.items())
     ]
     frame_depth = 1
     _print(frame_depth, args, kwargs={'sep':'\n'})
@@ -25,9 +26,10 @@ def pp(*args, **kwargs):
 def pv(*args):
     frame_depth = 1
     frame = inspect.stack()[frame_depth][0]
+    variables = [(k, frame.f_locals[k]) for k in sorted(frame.f_locals)]
     args = [
         '{k} = {v}'.format(k=k, v=render(v))
-        for k, v in frame.f_locals.items()
+        for k, v in variables
         if not k.startswith('_')
         if not isinstance(v, (FunctionType, type, ModuleType))
         if not args or v in args
@@ -75,7 +77,7 @@ def _print(frame_depth, args, kwargs):
         body = kwargs.get('sep', ' ').join(str(arg) for arg in args)
         header += ':\n' if body else '.'
         message = highlight_header(header) + highlight_body(indent(body))
-        output(message, **kwargs)
+        print(message, **kwargs)
 
     finally:
         # Failing to explicitly delete the frame can lead to long-lived 
