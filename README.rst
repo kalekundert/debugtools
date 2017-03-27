@@ -1,7 +1,7 @@
 ``debugtools`` --- Easily print useful debugging information
 ============================================================
 
-version = 0.3.9
+version = 0.3.10
 
 .. image:: https://img.shields.io/pypi/v/debugtools.svg
    :target: https://pypi.python.org/pypi/debugtools
