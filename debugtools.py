@@ -14,10 +14,17 @@ def p(*args, **kwargs):
     _print(frame_depth, args, kwargs)
 
 def pp(*args, **kwargs):
+    # if an argument has __dict__ attribute, render that rather than arg itself
+    def expand(arg):
+        try:
+            return render(arg.__dict__)
+        except AttributeError:
+            return render(arg)
+
     args = [
-        render(arg) for arg in args
+        expand(arg) for arg in args
     ] + [
-        '{k} = {v}'.format(k=k, v=render(v))
+        '{k} = {v}'.format(k=k, v=expand(v))
         for k, v in sorted(kwargs.items())
     ]
     frame_depth = 1
@@ -56,23 +63,23 @@ def _print(frame_depth, args, kwargs):
         fname = Path(filename).name
 
         if self is not None:
-            name = '.'.join([
+            context = '.'.join([
                     self.__class__.__module__,
                     self.__class__.__name__,
                     function,
             ]) + '()'
 
         elif function != '<module>':
-            name = '.'.join([module, function]) + '()'
+            context = '.'.join([module, function]) + '()'
 
         else:
-            name = module
+            context = module
 
         highlight_header = Color('magenta', enable=Color.isTTY(sys.stdout))
         highlight_body = Color('blue', enable=Color.isTTY(sys.stdout))
 
-        header = 'DEBUG: {fname}:{lineno}, {name}'.format(
-            filename=filename, fname=fname, lineno=lineno, name=name
+        header = 'DEBUG: {fname}:{lineno}, {context}'.format(
+            filename=filename, fname=fname, lineno=lineno, context=context
         )
         body = kwargs.get('sep', ' ').join(str(arg) for arg in args)
         header += ':\n' if body else '.'

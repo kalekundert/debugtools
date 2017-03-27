@@ -77,6 +77,24 @@ def test_daiquiri(capsys):
             s = 'hey now!'
     ''').lstrip()
 
+class Info:
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
+        pp(self=self, **kwargs)
+
+def test_prude(capsys):
+    Info(name='Ted Ledbelly', email='ted@ledbelly.com')
+    out, err = capsys.readouterr()
+    assert out == dedent('''
+        DEBUG: test_debugtools.py:83, test_debugtools.Info.__init__():
+            email = 'ted@ledbelly.com'
+            name = 'Ted Ledbelly'
+            self = {
+                'name': 'Ted Ledbelly',
+                'email': 'ted@ledbelly.com',
+            }
+    ''').lstrip()
+
 def test_update(capsys):
     a = 0
     b = 'b'
@@ -87,7 +105,7 @@ def test_update(capsys):
     out, err = capsys.readouterr()
     out = '\n'.join(l for l in out.split('\n') if 'capsys' not in l)
     assert out == dedent('''
-        DEBUG: test_debugtools.py:86, test_debugtools.test_update():
+        DEBUG: test_debugtools.py:104, test_debugtools.test_update():
             a = 0
             b = 'b'
             c = [0, 'b']
@@ -104,7 +122,7 @@ def test_shear(capsys):
     pv(a, b, c, d, e)
     out, err = capsys.readouterr()
     assert out == dedent('''
-        DEBUG: test_debugtools.py:104, test_debugtools.test_shear():
+        DEBUG: test_debugtools.py:122, test_debugtools.test_shear():
             a = 0
             b = 'b'
             c = [0, 'b']

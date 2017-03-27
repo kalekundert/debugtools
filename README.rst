@@ -84,6 +84,24 @@ value.
             'c': (2, 3),
         }
 
+If an arguments has a __dict__ attribute, it is printed rather than the argument 
+itself.
+
+.. code:: python
+
+    >>> class Info:
+    ...     def __init__(self, **kwargs):
+    ...         self.__dict__.update(kwargs)
+    ...         pp(self=self)
+
+    >>> Info(name='Ted Ledbelly', email='ted@ledbelly.com')
+    DEBUG: <doctest README.rst[8]>:4, __main__.Info.__init__():
+        self = {
+            'name': 'Ted Ledbelly',
+            'email': 'ted@ledbelly.com',
+        }
+    ...
+
 The ``pv()`` function calls ``pp()`` with the dictionary of variables from the 
 calling scope, so it's a good way to see what variables are defined in the 
 function you're debugging.
@@ -91,7 +109,7 @@ function you're debugging.
 .. code:: python
 
     >>> pv()
-    DEBUG: <doctest README.rst[8]>:1, __main__:
+    DEBUG: <doctest README.rst[10]>:1, __main__:
         a = 1
         b = 'this is a test'
         c = (2, 3)
@@ -107,7 +125,7 @@ variables are printed.
 .. code:: python
 
     >>> pv(b, d)
-    DEBUG: <doctest README.rst[9]>:1, __main__:
+    DEBUG: <doctest README.rst[11]>:1, __main__:
         b = 'this is a test'
         d = {
             'a': 1,
@@ -122,6 +140,6 @@ several variables share the value of one requested, they are all shown.
 
     >>> aa = 1
     >>> pv(a)
-    DEBUG: <doctest README.rst[11]>:1, __main__:
+    DEBUG: <doctest README.rst[13]>:1, __main__:
         a = 1
         aa = 1
